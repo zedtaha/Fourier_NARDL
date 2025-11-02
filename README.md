@@ -30,15 +30,39 @@ import pandas as pd
 import numpy as np
 from nardl import NARDL
 
+import pandas as pd
+import numpy as np
+from nardl import NARDL
+
 # --- Simulated data ---
 np.random.seed(42)
 n = 150
-time = np.arange(n)
 x = np.cumsum(np.random.normal(0, 1, n))
 z = np.cumsum(np.random.normal(0, 1, n))
 y = 0.5 * x + 0.3 * z + np.random.normal(0, 1, n)
 
 data = pd.DataFrame({'y': y, 'x': x, 'z': z})
+
+# --- Estimate NARDL model ---
+model = NARDL(formula='y ~ z | x', data=data, maxlag=3, ic='AIC', type='simple')
+model.summary()
+
+# --- Plot dynamic multipliers ---
+model.plot_multipliers(variable='x')
+
+# --- Plot CUSUM and CUSUMSQ stability tests ---
+from nardl import plot_nardl
+plot_nardl(model, which='both')
+# --- Estimate Fourier NARDL model ---
+model_fourier = NARDL(formula='y ~ z | x', data=data, maxlag=3, k=3, ic='AIC', type='fourier')
+model_fourier.summary()
+
+# --- Plot dynamic multipliers ---
+model_fourier.plot_multipliers(variable='x')
+
+# --- Plot stability tests ---
+plot_nardl(model_fourier, which='cusumsq')
+
 
 ======================================================================
 Fourier NARDL Model (Levels)
