@@ -62,7 +62,7 @@ model_fourier.plot_multipliers(variable='x')
 
 # --- Plot stability tests ---
 plot_nardl(model_fourier, which='cusumsq')
-
+---
 ## The output
 ======================================================================
 Fourier NARDL Model (Levels)
@@ -118,6 +118,7 @@ Heteroskedasticity:
 ARCH Effect:
   ARCH(1): statistic = 0.9253, p-value = 0.3369
 ======================================================================
+---
 ## The plots
 plot_nardl(model, which='both')   # both tests
 plot_nardl(model, which='cusum')  # CUSUM only
